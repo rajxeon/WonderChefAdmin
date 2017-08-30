@@ -146,6 +146,12 @@ class RestApi extends REST_Controller {
 		
 	}
 	
+	public function getPostTree_post(){
+		 $query = $this->db->query("call GenerateTreeView()");
+		 $this->set_response($query->result(), REST_Controller::HTTP_OK);
+         
+	}
+	
     public function users_get()
     {
         // Users from a data store e.g. database

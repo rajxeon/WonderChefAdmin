@@ -150,6 +150,20 @@ class Welcome extends CI_Controller {
 		$this->load->view('dashboard',$data);
 	}
 	
+	public function posts(){
+		$this->logoutIfSessionExpired();
+		$token=$_SESSION['token'];
+		$this->db->where("token",$token);
+		$data=$this->db->get('admin',0,1)->result();
+		$data=$data[0];
+		$data->pageName="Posts Hierarchy";
+		$data->baseUrl=base_url();
+		
+		$this->load->view('posts',$data);
+	}
+	
+	
+	
 	public function chefs(){
 		$this->logoutIfSessionExpired();
 		$token=$_SESSION['token'];
