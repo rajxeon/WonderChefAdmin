@@ -175,22 +175,22 @@ $(document).ready(function(){
 		
 		  <div class="form-group">
 			<label >Chef Name</label>
-			<input type="text" class="form-control" id="chef_name" placeholder="Name" >
+			<input type="text" class="form-control" id="chef_name" placeholder="Name" required>
 		  </div>
 		  
 		  <div class="form-group">
 			<label >Phone</label>
-			<input type="number" class="form-control" id="chef_phone" placeholder="Phone" >
+			<input type="number" class="form-control" id="chef_phone" placeholder="Phone" required>
 		  </div>
 		  
 		  <div class="form-group">
 			<label >Address</label>
-			<input type="text" class="form-control" id="chef_address" placeholder="Address" >
+			<input type="text" class="form-control" id="chef_address" placeholder="Address" required>
 		  </div>
 		
 	      <div class="form-group">
 			<label >Experience</label>
-			<input type="number" class="form-control" id="chef_experience" placeholder="Experience" >
+			<input type="number" class="form-control" id="chef_experience" placeholder="Experience" required>
 		  </div>
 			 
 		

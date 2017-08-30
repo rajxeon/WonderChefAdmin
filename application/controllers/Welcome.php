@@ -159,6 +159,11 @@ class Welcome extends CI_Controller {
 		$data->pageName="Posts Hierarchy";
 		$data->baseUrl=base_url();
 		
+		$rows=$this->db->get("jobpost")->result();
+		//$rows=$rows[0];
+		
+		$data->jobposts=$rows;
+		
 		$this->load->view('posts',$data);
 	}
 	

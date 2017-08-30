@@ -111,6 +111,23 @@ class RestApi extends REST_Controller {
 		$this->set_response($id, REST_Controller::HTTP_OK);
 	}
 	
+	public function addposition_post(){
+		
+		$position_name=$this->post('position_name');
+		$parent_id=$this->post('parent_id');
+		 
+		
+		$data = array(
+		   'name' => $position_name,
+		   'parent' => $parent_id  
+		);
+		
+		$id=$this->db->insert('jobpost',$data);
+		 
+		
+		$this->set_response($id, REST_Controller::HTTP_OK);
+	}
+	
 	public function deletechefs_post(){
 		$id=$this->post('id');
 		
