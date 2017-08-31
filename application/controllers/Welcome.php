@@ -72,6 +72,7 @@ class Welcome extends CI_Controller {
 	public function loginIn($message=''){
 		//echo "Login page";
 		
+		
 		$this->load->helper('url'); 
 		$validate_token= site_url('restapi/login_check');
 		$loginPage= site_url('welcome/loginIn');
@@ -79,6 +80,7 @@ class Welcome extends CI_Controller {
 		$welcome= site_url('welcome/');
 		if(isset($_POST['submit'])){
 			 
+			  
 			$username= $this->input->post('username');
 			$password= md5($this->input->post('password'));
 			
@@ -103,12 +105,14 @@ class Welcome extends CI_Controller {
 				 
 				if($json['loggedIn']){
 					//Logged in
+					 
 					
 					$this->load->library('session');		
 					$this->session->set_userdata('token', $json['token']);
 					redirect($welcome, 'refresh');
 				}
 				else{
+					 
 					redirect($loginPage.'/'.$json['message'], 'refresh');
 				}
 				 

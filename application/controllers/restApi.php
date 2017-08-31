@@ -111,11 +111,9 @@ class RestApi extends REST_Controller {
 		$this->set_response($id, REST_Controller::HTTP_OK);
 	}
 	
-	public function addposition_post(){
-		
+	public function addposition_post(){		
 		$position_name=$this->post('position_name');
-		$parent_id=$this->post('parent_id');
-		 
+		$parent_id=$this->post('parent_id'); 
 		
 		$data = array(
 		   'name' => $position_name,
@@ -127,6 +125,86 @@ class RestApi extends REST_Controller {
 		
 		$this->set_response($id, REST_Controller::HTTP_OK);
 	}
+	
+	public function updatePositionDetails_post(){
+		$id=$this->post('id');		
+		$name=$this->post('name');		
+		$description=$this->post('description');	
+		$parent=$this->post('parent');	
+		
+	 
+		
+		if(empty($name)){
+			$name="No name";
+		}
+		$data = array(
+		   'name' => $name,
+		   'description' => $description,
+		   'parent' => $parent  
+		);
+		
+		$this->db->where('id',$id);
+		if($this->db->update('jobpost',$data)){
+			$this->set_response('true', REST_Controller::HTTP_OK);
+		}
+		else{
+			$this->set_response('false', REST_Controller::HTTP_OK);
+		}
+		
+	}
+	
+	public function deletePostWithChild_post(){
+		//Delete a jobpost and its child
+		$id=$this->post('id');		
+		
+		
+		
+		$this->db->where('id',$id);
+		if($this->db->delete('jobpost')){
+			$this->db->where('parent',$id);	
+			if($this->db->delete('jobpost')){
+				$this->set_response("true", REST_Controller::HTTP_OK);
+				//Delete the orphans
+				//Need to modify code
+				$sql='select id from jobpost where (id not in(SELECT DISTINCT  `parent` FROM `jobpost`) and parent<>0) and (id not in (select id from jobpost where parent in (select id from jobpost where id in(SELECT DISTINCT  `parent` FROM `jobpost`))))';
+				$result=$this->db->query($sql)->result();
+				
+				$str='(';
+				foreach($result as $r){
+					//$str.=$r;
+					$str.=( $r->id).',';
+				}
+				$str = rtrim($str, ',');
+				$str.=')';
+				if(strlen($str)>2){
+					$sql_delete="DELETE from jobpost where id in ".$str;
+					$this->set_response("true", REST_Controller::HTTP_OK);
+					$this->db->query($sql);	
+				}
+				
+			}
+			else{
+				$this->set_response("false", REST_Controller::HTTP_OK);
+			}
+				
+		}
+		else{
+			$this->set_response("false", REST_Controller::HTTP_OK);
+		}
+		
+		
+		
+		
+		
+	}
+	
+	public function getPositionDetails_post(){
+		$id=$this->post('id');		
+		$this->db->where('id',$id);
+		$data=$this->db->get('jobpost')->result(); 
+		$this->set_response($data[0], REST_Controller::HTTP_OK);
+	}
+	
 	
 	public function deletechefs_post(){
 		$id=$this->post('id');
