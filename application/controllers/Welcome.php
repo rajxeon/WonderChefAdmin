@@ -188,6 +188,43 @@ class Welcome extends CI_Controller {
 		$this->load->view('chefs',$data);
 	}
 	
+	public function disciplines(){
+		$this->logoutIfSessionExpired();
+		$token=$_SESSION['token'];
+		$this->db->where("token",$token);
+		$data=$this->db->get('admin',0,1)->result();
+		$data=$data[0];
+		$data->pageName="Disciplines";
+		
+		//Get the all the chefs
+		$data->baseUrl=base_url();
+		$data->disciplines=$this->db->get("disciplines")->result();
+		
+		$this->load->view('disciplines',$data);
+	}
+	
+	
+	public function chef_edit($id){
+		$this->logoutIfSessionExpired();
+		$token=$_SESSION['token'];
+		$this->db->where("token",$token);
+		$data=$this->db->get('admin',0,1)->result();
+		$data=$data[0];
+		$data->pageName="Edit Associate";
+		$data->positions=$this->db->get("jobpost")->result();
+		 
+		//Get the all the chefs
+		$data->baseUrl=base_url();
+		$this->db->where('id',$id);
+		$chef=$this->db->get("chefs")->result();
+		$chef=$chef[0];
+		$data->chef=$chef;
+		//Get the all the deciplenes
+		$data->disciplines=$this->db->get("disciplines")->result();
+		
+		$this->load->view('chef_edit',$data);
+	}
+	
 	public function logoutIfSessionExpired(){
 		$token=$_SESSION['token'];			 			
 			 

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 31, 2017 at 03:39 PM
+-- Generation Time: Sep 01, 2017 at 03:54 PM
 -- Server version: 5.7.14
 -- PHP Version: 5.6.25
 
@@ -438,7 +438,7 @@ CREATE TABLE `admin` (
 --
 
 INSERT INTO `admin` (`id`, `name`, `username`, `password`, `token`, `lastLoggedin`) VALUES
-(1, 'Raj', 'rajxeon', '61E2484AE1AFA50C36068429D1EB1EEA', '4f3fc293074197160f54cec0a53d7782612190a0', '2017-08-31 08:57:16');
+(1, 'Raj', 'rajxeon', '61E2484AE1AFA50C36068429D1EB1EEA', 'ac2cbd4d56c4c062298fb9449252687b51b2645b', '2017-09-01 09:44:29');
 
 -- --------------------------------------------------------
 
@@ -696,7 +696,7 @@ CREATE TABLE `awm_addr_book` (
 
 INSERT INTO `awm_addr_book` (`id_addr`, `id_user`, `id_domain`, `id_tenant`, `str_id`, `type`, `type_id`, `deleted`, `date_created`, `date_modified`, `fullname`, `view_email`, `use_friendly_nm`, `firstname`, `surname`, `nickname`, `skype`, `facebook`, `h_email`, `h_street`, `h_city`, `h_state`, `h_zip`, `h_country`, `h_phone`, `h_fax`, `h_mobile`, `h_web`, `b_email`, `b_company`, `b_street`, `b_city`, `b_state`, `b_zip`, `b_country`, `b_job_title`, `b_department`, `b_office`, `b_phone`, `b_fax`, `b_web`, `other_email`, `primary_email`, `birthday_day`, `birthday_month`, `birthday_year`, `id_addr_prev`, `tmp`, `use_frequency`, `auto_create`, `notes`, `etag`, `shared_to_all`, `hide_in_gab`) VALUES
 (1, 0, 0, 0, NULL, 2, '1', 0, '2017-08-31 15:34:27', '2017-08-31 15:34:27', '', 'info@dinajpurbandhu.org', 1, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 'info@dinajpurbandhu.org', '', '', '', '', '', '', '', '', '', '', '', '', '', 1, 0, 0, 0, NULL, 0, 1, 0, '', '', 0, 0),
-(2, 1, 0, 0, NULL, 0, '', 0, '2017-08-31 15:36:28', '2017-08-31 15:36:28', '', 'rajxeon@gmail.com', 1, '', '', '', '', '', 'rajxeon@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, 0, 0, NULL, 0, 1, 1, NULL, '', 0, 0);
+(2, 1, 0, 0, NULL, 0, '', 0, '2017-08-31 15:36:28', '2017-09-01 07:21:18', '', 'rajxeon@gmail.com', 1, '', '', '', '', '', 'rajxeon@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, 0, 0, NULL, 0, 2, 1, NULL, '', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -1364,20 +1364,45 @@ CREATE TABLE `chefs` (
   `address` varchar(50) NOT NULL,
   `rating` int(11) NOT NULL DEFAULT '3',
   `experience` int(11) NOT NULL DEFAULT '0',
-  `addedOn` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `addedOn` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `rating_count` int(11) NOT NULL DEFAULT '0',
+  `position` int(11) NOT NULL DEFAULT '0',
+  `disciplines` varchar(1000) NOT NULL DEFAULT ''
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `chefs`
 --
 
-INSERT INTO `chefs` (`id`, `name`, `phone`, `active`, `address`, `rating`, `experience`, `addedOn`) VALUES
-(1, 'Test 1', '9475956718', 1, 'Address', 3, 2, '2017-08-30 07:17:26'),
-(2, 'Test 2', '9475956718', 1, 'Address', 3, 2, '2017-08-30 07:17:26'),
-(7, 'asd', '321', 1, '234', 3, 324, '2017-08-30 07:41:13'),
-(6, '123', '23', 0, '234', 3, 324, '2017-08-30 07:40:48'),
-(8, 'asd33', '321', 1, '234', 3, 324, '2017-08-30 07:41:24'),
-(11, 'asd4', '32', 0, '234', 3, 23465, '2017-08-30 09:40:19');
+INSERT INTO `chefs` (`id`, `name`, `phone`, `active`, `address`, `rating`, `experience`, `addedOn`, `rating_count`, `position`, `disciplines`) VALUES
+(1, 'Test 1', '9475956718', 1, 'Address', 3, 2, '2017-08-30 07:17:26', 0, 15, '-Test-Test2-Test3-Test4-'),
+(2, 'Test 2', '9475956718', 1, 'Address', 3, 2, '2017-08-30 07:17:26', 0, 0, ''),
+(7, 'asd', '321', 1, '234', 3, 2, '2017-08-30 07:41:13', 0, 0, ''),
+(6, '123456', '23', 1, '234', 3, 2, '2017-04-12 07:40:48', 0, 13, ''),
+(8, 'asd33', '321', 1, '234', 3, 2, '2017-08-30 07:41:24', 0, 0, ''),
+(11, 'asd4', '32', 0, '234', 3, 1, '2017-08-30 09:40:19', 0, 0, '');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `disciplines`
+--
+
+CREATE TABLE `disciplines` (
+  `id` int(11) NOT NULL,
+  `name` varchar(50) NOT NULL,
+  `description` varchar(300) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `disciplines`
+--
+
+INSERT INTO `disciplines` (`id`, `name`, `description`) VALUES
+(1, 'Test', 'This is a test message'),
+(2, 'Test2', 'This is a test2 message'),
+(3, 'Test3', 'This is a test2 message'),
+(4, 'Test4', 'This is a test2 message');
 
 -- --------------------------------------------------------
 
@@ -1397,7 +1422,7 @@ CREATE TABLE `jobpost` (
 --
 
 INSERT INTO `jobpost` (`id`, `name`, `parent`, `description`) VALUES
-(15, 'Test', 14, ''),
+(15, 'Test', 13, ''),
 (11, 'Child_2_1_3_1', 8, ''),
 (13, 'Raj', 5, 'Test'),
 (14, 'Test2', 1, ''),
@@ -1809,6 +1834,12 @@ ALTER TABLE `chefs`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `disciplines`
+--
+ALTER TABLE `disciplines`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `jobpost`
 --
 ALTER TABLE `jobpost`
@@ -2089,6 +2120,11 @@ ALTER TABLE `a_users`
 --
 ALTER TABLE `chefs`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+--
+-- AUTO_INCREMENT for table `disciplines`
+--
+ALTER TABLE `disciplines`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `jobpost`
 --

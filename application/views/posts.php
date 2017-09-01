@@ -55,7 +55,14 @@ $(document).ready(function(){
 		//Get the data for the node
 		url="<?php echo $baseUrl.'index.php/restApi/getPositionDetails'; ?>"
 		
-		$.post(url,{id:$(this).attr("data-nodeId")},function(data){			 
+		$.post(url,{id:$(this).attr("data-nodeId")},function(data){	
+			 
+			associates_in_post=data[1];
+			
+			$('#assoc_num').html(associates_in_post);
+			
+			data=data[0];
+		
 			$('#position_name_modal').val(data.name);
 			$('#position_description_modal').val(data.description);
 			
@@ -204,7 +211,7 @@ $(document).ready(function(){
 			<textarea class="form-control" id="position_description_modal"></textarea>			
 		  </div>
 		  
-		   <span><a href="#">78 associates</a> under this position</span>
+		   <span><a href="#"><span id="assoc_num">-1</span> associates</a> under this position</span>
 		
       </div>
       <div class="modal-footer">

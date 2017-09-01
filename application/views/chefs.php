@@ -32,7 +32,7 @@ function getAndDisplayChefs(){
 			
 		//Get the chefs list
 		url="<?php echo $baseUrl.'index.php/restApi/getchefs'; ?>"
-		 
+		chef_edit_url="<?php echo $baseUrl.'index.php/welcome/chef_edit/'; ?>"
 		 
 		$.get(url,{},function(data){
 			
@@ -53,7 +53,7 @@ function getAndDisplayChefs(){
 					str+='<td> <input type="checkbox" class="form-control ckBox" value="'+data.id+'"></td>'; 
 				}
 				
-				str+="<td><i class='glyphicon glyphicon-pencil primary' style='color: #2a9bff;cursor: pointer;' title='Inline Edit' ></i>  &nbsp;&nbsp;&nbsp; ";
+				str+="<td><a href='"+chef_edit_url+data.id+"'><i class='glyphicon glyphicon-pencil primary' style='color: #2a9bff;cursor: pointer;' title=' Edit' ></i></a>  &nbsp;&nbsp;&nbsp; ";
 				str+="<i class='glyphicon glyphicon-trash' onclick='delete_chef("+data.id+")' style='color: #ff2a93;cursor: pointer;' title='Delete'></i> &nbsp;&nbsp;&nbsp;"; 				 								
 				str+="<i class='glyphicon glyphicon-eye-open' style='color: #ff932a;cursor: pointer;' title='View Profile'></i> </td>"; 		
 				str+='</tr>';		

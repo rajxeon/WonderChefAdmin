@@ -37,6 +37,15 @@
 
 						<b class="arrow"></b>
 					</li>
+					
+					<li class="">
+						<a href="<?php echo site_url('welcome/disciplines'); ?>">
+							<i class="menu-icon fa fa-book"></i>
+							<span class="menu-text"> Disciplines </span>
+						</a>
+
+						<b class="arrow"></b>
+					</li>
 				</ul>
 
 				<div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">

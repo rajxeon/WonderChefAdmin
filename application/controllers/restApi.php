@@ -198,11 +198,87 @@ class RestApi extends REST_Controller {
 		
 	}
 	
+	public function updateChef_post(){
+		$id=$this->post('id');		
+		$this->db->where('id',$id);
+		
+		$name=$this->post('name');
+		$address=$this->post('address');		
+		$phone=$this->post('phone');		
+		$active=$this->post('active');		
+		$position=$this->post('position');		
+		
+		$data = array(
+               'name' => $name,
+               'address' => $address,
+               'phone' => $phone,
+               'position' => $position,
+               'active' => $active
+			   
+            );
+		if($this->db->update('chefs', $data)){
+			$this->set_response("true", REST_Controller::HTTP_OK);
+		}
+		else{
+			$this->set_response("false", REST_Controller::HTTP_OK);
+		}
+	}
+	
+	public function getDisciplines_post(){
+		$id=$this->post('id');
+		$this->db->where('id',$id);
+		$data=$this->db->get("chefs")->result();
+		$data=$data[0];
+		$disciplines=$data->disciplines;
+		$this->set_response($disciplines, REST_Controller::HTTP_OK);
+	}
+	
+	
+	public function addDisciplines_post(){
+		$id=$this->post('id');		
+		$discipline=$this->post('discipline');		
+		
+		//Get all the discipline from chef
+		$this->db->where('id',$id);
+		$data=$this->db->get("chefs")->result();
+		$data=$data[0];
+		
+		$p_disciplines=$data->disciplines;
+		$p_disciplines=explode("-", $p_disciplines);
+		$p_disciplines[]=$discipline;
+		
+		$p_disciplines=(array_unique($p_disciplines));
+		
+		$discipline=implode('-',$p_disciplines).'-';
+		
+		$this->db->where('id',$id);
+		$data=array(
+		'disciplines'=>$discipline
+		);
+		
+		if($this->db->update('chefs', $data)){
+			$this->set_response("true", REST_Controller::HTTP_OK);
+		}
+		else{
+			$this->set_response("false", REST_Controller::HTTP_OK);
+		}
+	}
+	
+	
 	public function getPositionDetails_post(){
 		$id=$this->post('id');		
 		$this->db->where('id',$id);
 		$data=$this->db->get('jobpost')->result(); 
-		$this->set_response($data[0], REST_Controller::HTTP_OK);
+		
+		$temp=array();
+		$temp[]=$data[0];
+		
+		//Also get the number of associates that comes under the node
+		$this->db->where('position',$id);
+		$num_rows = $this->db->count_all_results('chefs');
+		$temp[]=$num_rows;
+		
+		$this->set_response($temp, REST_Controller::HTTP_OK);
 	}
 	
 	
