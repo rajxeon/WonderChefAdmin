@@ -224,6 +224,52 @@ class RestApi extends REST_Controller {
 		}
 	}
 	
+	public function filter_associates_post(){
+		$filter_value=$this->post('filter_value');
+		$filter_name=$this->post('filter_name');
+		$data="";
+		switch ($filter_name) {
+			case 'by_discipline':
+				$data=$this->db->select('*')->from('chefs')->where("disciplines LIKE '%-".$filter_value."-%'")->get()->result();
+				break;
+			 case 'by_post':
+			 $this->db->where('position',$filter_value);
+				$data=$this->db->get('chefs')->result();
+				break;
+			 
+		}
+		$this->set_response($data, REST_Controller::HTTP_OK);
+	}
+	
+	public function addNewDisciplines_post(){
+		$name=$this->post('name');
+		$description=$this->post('description');
+		
+		$data=array(
+			'name'=>$name,
+			'description'=>$description
+			
+		);
+		
+		if($this->db->insert('disciplines',$data)){
+			$this->set_response("true", REST_Controller::HTTP_OK);
+		}
+		else{
+			$this->set_response("false", REST_Controller::HTTP_OK);
+		}
+	}
+	
+	public function deleteDisciplines_post(){
+		$id=$this->post('id');
+		$this->db->where('id',$id);
+		if($this->db->delete('disciplines')){
+			$this->set_response("true", REST_Controller::HTTP_OK);
+		}
+		else{
+			$this->set_response("false", REST_Controller::HTTP_OK);
+		}
+	}
+	
 	public function getDisciplines_post(){
 		$id=$this->post('id');
 		$this->db->where('id',$id);

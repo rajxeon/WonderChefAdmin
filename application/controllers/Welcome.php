@@ -172,6 +172,23 @@ class Welcome extends CI_Controller {
 	}
 	
 	
+	public function associates_filtered($filter_name,$filter_value){
+		$this->logoutIfSessionExpired();
+		$token=$_SESSION['token'];
+		$this->db->where("token",$token);
+		$data=$this->db->get('admin',0,1)->result();
+		$data=$data[0];
+		$data->pageName="Associates Filtered";
+		
+		//Get the all the chefs
+		$data->baseUrl=base_url();
+		$data->filter_name=$filter_name;
+		$data->filter_value=$filter_value;
+		//$data->chefs=$this->db->get("chefs")->result();
+		
+		$this->load->view('associates_filtered',$data);
+	}
+	
 	
 	public function chefs(){
 		$this->logoutIfSessionExpired();

@@ -66,6 +66,8 @@ $(document).ready(function(){
 			$('#position_name_modal').val(data.name);
 			$('#position_description_modal').val(data.description);
 			
+			$('#post_filter').attr('href',"<?php echo $baseUrl;?>"+'index.php/welcome/associates_filtered/by_post/'+data.id);
+			
 			dropHtml='<select class="form-control" id="parent_id_modal">'+$('#parent_id').html()+"</select>";
 			dropHtml=dropHtml.replace('selected','');
 			dropHtml=dropHtml.replace('value="'+data.parent+'"','value="'+data.parent+'" selected');		 
@@ -211,7 +213,7 @@ $(document).ready(function(){
 			<textarea class="form-control" id="position_description_modal"></textarea>			
 		  </div>
 		  
-		   <span><a href="#"><span id="assoc_num">-1</span> associates</a> under this position</span>
+		   <span><a id="post_filter" href="#"><span id="assoc_num">-1</span> associates</a> under this position</span>
 		
       </div>
       <div class="modal-footer">
