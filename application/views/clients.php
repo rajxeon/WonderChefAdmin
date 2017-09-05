@@ -2,7 +2,12 @@
 <?php $this->load->view('components/L1'); ?>
 <link rel="shortcut icon" type="image/png" href="//cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css">
 <script type="text/javascript" src="//cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+
  
+<script src="<?php echo base_url('assets/js/jquery.datetimepicker.full.min.js'); ?>"></script>
+<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/jquery.datetimepicker.js'); ?>"/ >
+ 
+
 <script>
 
 function delete_client(id){
@@ -29,6 +34,9 @@ function show_follow_ups(id){
 	
 	$('#myModalFollowUps').modal('show');
 	url="<?php echo $baseUrl.'index.php/restApi/getFollo_ups'; ?>"
+	
+	
+	
 	$.post(url,{id:id},function(data){		 
 	
 		client_info=data[0][0];
@@ -124,6 +132,7 @@ $(document).on('submit','#new_client_form',function(e){
 
 $(document).ready(function(){
 	getAllClients();
+	$('#datetimepicker').datetimepicker();;
 })
 
 </script>
@@ -132,6 +141,7 @@ $(document).ready(function(){
 		<div class="row">
 		<button class="btn btn-success btn-sm btn-flat pull-right" data-toggle="modal" data-target="#myModal"> + Add</button>
 			<div class="col-xs-12">
+			<input id="datetimepicker" type="text" >
 			 <table id="myTable" class="table table-stripped">
 					<thead>
 						<tr>
@@ -173,6 +183,7 @@ $(document).ready(function(){
 		  <div id="meeting_holder" style="    height: 30px;">
 			<div class="col-lg-6" id="meeting_info"></div>
 			<div class="col-lg-6">
+				
 				<button class="btn btn-success btn-xs pull-right" > + New Meeting</button>
 			</div>
 		  </div>
