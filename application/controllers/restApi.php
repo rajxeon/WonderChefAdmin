@@ -91,6 +91,22 @@ class RestApi extends REST_Controller {
 		$this->set_response($result, REST_Controller::HTTP_OK);
 	}
 	
+	public function addclient_post(){
+		
+		$chef_name=$this->post('chef_name');
+		$chef_phone=$this->post('chef_phone');
+		$chef_address=$this->post('chef_address'); 
+		
+		$data = array(
+		   'name' => $chef_name,
+		   'phone' => $chef_phone ,
+		   'address' => $chef_address
+		);
+		
+		$id=$this->db->insert('clients',$data);
+		$this->set_response($id, REST_Controller::HTTP_OK);
+	}
+	
 	public function addchefs_post(){
 		
 		$chef_name=$this->post('chef_name');
@@ -224,6 +240,11 @@ class RestApi extends REST_Controller {
 		}
 	}
 	
+	public function getAllClients_post(){
+		
+		$data=$this->db->get('clients')->result();
+		$this->set_response($data, REST_Controller::HTTP_OK);
+	}
 	public function filter_associates_post(){
 		$filter_value=$this->post('filter_value');
 		$filter_name=$this->post('filter_name');
@@ -311,6 +332,39 @@ class RestApi extends REST_Controller {
 	}
 	
 	
+	public function editFollowUps_post(){
+		$id=$this->post('id');		
+		$follow_ups=$this->post('followups');		
+		
+		$data=array(
+			'follow_ups'=>$follow_ups
+		);
+		$this->db->where('id',$id);
+		if($this->db->update('clients',$data)){
+			$this->set_response("true", REST_Controller::HTTP_OK);
+		}
+		else{
+			$this->set_response("false", REST_Controller::HTTP_OK);
+		}
+	}
+	public function getFollo_ups_post(){
+		$id=$this->post('id');		
+		$full_data=array();
+		
+		$this->db->where('id',$id);
+		$data=$this->db->get('clients')->result(); 
+		$full_data[]=$data;
+		
+		$this->db->where('id',$id);
+		$this->db->limit(1);
+		$this->db->order_by("datetime", "asc");
+		$data=$this->db->get('meetings')->result(); 
+		$full_data[]=$data;
+		
+	 
+		
+		$this->set_response($full_data, REST_Controller::HTTP_OK);
+	}
 	public function getPositionDetails_post(){
 		$id=$this->post('id');		
 		$this->db->where('id',$id);
@@ -327,6 +381,12 @@ class RestApi extends REST_Controller {
 		$this->set_response($temp, REST_Controller::HTTP_OK);
 	}
 	
+	public function deleteclients_post(){
+		$id=$this->post('id');		
+		$this->db->where('id',$id);
+		$data=$this->db->delete('clients'); 
+		$this->set_response($data, REST_Controller::HTTP_OK);
+	}
 	
 	public function deletechefs_post(){
 		$id=$this->post('id');

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 01, 2017 at 03:54 PM
+-- Generation Time: Sep 05, 2017 at 12:35 PM
 -- Server version: 5.7.14
 -- PHP Version: 5.6.25
 
@@ -438,7 +438,7 @@ CREATE TABLE `admin` (
 --
 
 INSERT INTO `admin` (`id`, `name`, `username`, `password`, `token`, `lastLoggedin`) VALUES
-(1, 'Raj', 'rajxeon', '61E2484AE1AFA50C36068429D1EB1EEA', 'ac2cbd4d56c4c062298fb9449252687b51b2645b', '2017-09-01 09:44:29');
+(1, 'Raj', 'rajxeon', '61E2484AE1AFA50C36068429D1EB1EEA', '02800b1f09c48103e1152f9bcedfa5f9f1bc7166', '2017-09-05 07:03:09');
 
 -- --------------------------------------------------------
 
@@ -1375,12 +1375,34 @@ CREATE TABLE `chefs` (
 --
 
 INSERT INTO `chefs` (`id`, `name`, `phone`, `active`, `address`, `rating`, `experience`, `addedOn`, `rating_count`, `position`, `disciplines`) VALUES
-(1, 'Test 1', '9475956718', 1, 'Address', 3, 2, '2017-08-30 07:17:26', 0, 15, '-Test-Test2-Test3-Test4-'),
-(2, 'Test 2', '9475956718', 1, 'Address', 3, 2, '2017-08-30 07:17:26', 0, 0, ''),
+(1, 'Test 1', '9475956718', 1, 'Address', 3, 2, '2017-08-30 07:17:26', 0, 13, '-Test-Test2-Test3-Test4-'),
+(2, 'Test 2', '9475956718', 1, 'Address', 3, 2, '2017-08-30 07:17:26', 0, 13, '-Cooking-'),
 (7, 'asd', '321', 1, '234', 3, 2, '2017-08-30 07:41:13', 0, 0, ''),
-(6, '123456', '23', 1, '234', 3, 2, '2017-04-12 07:40:48', 0, 13, ''),
 (8, 'asd33', '321', 1, '234', 3, 2, '2017-08-30 07:41:24', 0, 0, ''),
 (11, 'asd4', '32', 0, '234', 3, 1, '2017-08-30 09:40:19', 0, 0, '');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `clients`
+--
+
+CREATE TABLE `clients` (
+  `id` int(11) NOT NULL,
+  `name` varchar(50) NOT NULL,
+  `phone` varchar(15) NOT NULL,
+  `address` varchar(100) NOT NULL,
+  `follow_ups` varchar(10000) NOT NULL DEFAULT 'No Follow ups',
+  `last_updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `clients`
+--
+
+INSERT INTO `clients` (`id`, `name`, `phone`, `address`, `follow_ups`, `last_updated`) VALUES
+(1, 'level_1', '9475956718', 'getAllClients', 'getAllClients\nasddd\nsss', '2017-09-05 09:15:19'),
+(3, 'asd', '32423', 'wedas 43w3', '-1st follow up-----\n=======================================\nNeed to discuss about the finance', '2017-09-05 10:06:20');
 
 -- --------------------------------------------------------
 
@@ -1402,7 +1424,7 @@ INSERT INTO `disciplines` (`id`, `name`, `description`) VALUES
 (1, 'Test', 'This is a test message'),
 (2, 'Test2', 'This is a test2 message'),
 (3, 'Test3', 'This is a test2 message'),
-(4, 'Test4', 'This is a test2 message');
+(6, 'Cooking', 'Related to cooking');
 
 -- --------------------------------------------------------
 
@@ -1434,6 +1456,28 @@ INSERT INTO `jobpost` (`id`, `name`, `parent`, `description`) VALUES
 (9, 'Child_2_1_2', 7, ''),
 (10, 'Child_2_1_3', 7, ''),
 (35, 'Test1', 0, '');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `meetings`
+--
+
+CREATE TABLE `meetings` (
+  `id` int(11) NOT NULL,
+  `subject` varchar(150) NOT NULL,
+  `details` varchar(1000) NOT NULL,
+  `client_id` int(11) NOT NULL,
+  `datetime` timestamp NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `meetings`
+--
+
+INSERT INTO `meetings` (`id`, `subject`, `details`, `client_id`, `datetime`) VALUES
+(1, 'Test', 'Details Body', 1, '2017-09-05 11:59:25'),
+(2, 'Test', 'Details Body', 1, '2017-09-07 11:59:40');
 
 -- --------------------------------------------------------
 
@@ -1834,6 +1878,12 @@ ALTER TABLE `chefs`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `clients`
+--
+ALTER TABLE `clients`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `disciplines`
 --
 ALTER TABLE `disciplines`
@@ -1843,6 +1893,12 @@ ALTER TABLE `disciplines`
 -- Indexes for table `jobpost`
 --
 ALTER TABLE `jobpost`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `meetings`
+--
+ALTER TABLE `meetings`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -2119,17 +2175,27 @@ ALTER TABLE `a_users`
 -- AUTO_INCREMENT for table `chefs`
 --
 ALTER TABLE `chefs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+--
+-- AUTO_INCREMENT for table `clients`
+--
+ALTER TABLE `clients`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `disciplines`
 --
 ALTER TABLE `disciplines`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT for table `jobpost`
 --
 ALTER TABLE `jobpost`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+--
+-- AUTO_INCREMENT for table `meetings`
+--
+ALTER TABLE `meetings`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `twofa_accounts`
 --

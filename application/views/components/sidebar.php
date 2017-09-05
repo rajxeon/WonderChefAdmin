@@ -46,6 +46,15 @@
 
 						<b class="arrow"></b>
 					</li>
+					
+					<li class="">
+						<a href="<?php echo site_url('welcome/clients'); ?>">
+							<i class="menu-icon fa fa-users"></i>
+							<span class="menu-text"> Clients </span>
+						</a>
+
+						<b class="arrow"></b>
+					</li>
 				</ul>
 
 				<div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">

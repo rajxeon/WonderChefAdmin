@@ -189,6 +189,21 @@ class Welcome extends CI_Controller {
 		$this->load->view('associates_filtered',$data);
 	}
 	
+	public function clients(){
+		$this->logoutIfSessionExpired();
+		$token=$_SESSION['token'];
+		$this->db->where("token",$token);
+		$data=$this->db->get('admin',0,1)->result();
+		$data=$data[0];
+		$data->pageName="Clients";
+		
+		 
+		$data->baseUrl=base_url();
+		 
+		
+		$this->load->view('clients',$data);
+	}
+	
 	
 	public function chefs(){
 		$this->logoutIfSessionExpired();

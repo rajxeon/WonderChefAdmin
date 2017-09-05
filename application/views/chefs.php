@@ -34,8 +34,7 @@ function getAndDisplayChefs(){
 		url="<?php echo $baseUrl.'index.php/restApi/getchefs'; ?>"
 		chef_edit_url="<?php echo $baseUrl.'index.php/welcome/chef_edit/'; ?>"
 		 
-		$.get(url,{},function(data){
-			
+		$.get(url,{},function(data){			
 			str='';
 			$(data).each(function(index,data){
 				 
@@ -192,10 +191,7 @@ $(document).ready(function(){
 			<label >Experience</label>
 			<input type="number" class="form-control" id="chef_experience" placeholder="Experience" required>
 		  </div>
-			 
-		
-		
-		
+			  
 		
       </div>
       <div class="modal-footer">
