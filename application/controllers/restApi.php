@@ -31,134 +31,134 @@ class RestApi extends REST_Controller {
         $this->methods['users_delete']['limit'] = 50; // 50 requests per hour per user/key
     }
 
-	
+
 	public function validate_token_post(){
-		$token =trim( $this->post('token'));	 	
-		
+		$token =trim( $this->post('token'));
+
 		$this->db->where("token",$token);
 		$result=$this->db->get("admin",0,1)->result();
 		if(empty($result)){
-			
+
 			$data =['id' => null, 'name' => 'null', 'token' => $token,'loggedIn'=>false,"message"=>"Invalid Token"]      ;
 		}
 		else{
 			$from_time =strtotime( $result[0]->lastLoggedin);
 			$to_time=strtotime(date("Y-m-d H:i:s"));
 			if((int) round(abs($to_time - $from_time)/60 ,0)>60){
-				//Session expired				
+				//Session expired
 				$data =['id' => $result[0]->id, 'name' => $result[0]->name, 'loggedIn' => $token,'loggedIn'=>false,"message"=>"Session expired"];
 			}
 			else{
-				//Login is valid				
-				$data =['id' => $result[0]->id, 'name' => $result[0]->name, 'loggedIn' => $token,'loggedIn'=>true,"message"=>"Successfully logged in"];			 
+				//Login is valid
+				$data =['id' => $result[0]->id, 'name' => $result[0]->name, 'loggedIn' => $token,'loggedIn'=>true,"message"=>"Successfully logged in"];
 			}
 		}
-		
-		 
+
+
 		$this->set_response($data, REST_Controller::HTTP_OK);
 	}
-	
+
 	public function login_check_post(){
 		$username =( $this->post('username'));
 		$password =( $this->post('password'));
-		
+
 		$this->db->where(array('username'=>$username,'password'=>$password));
 		$result=$this->db->get("admin",0,1)->result();
-		 
-		
+
+
 		if(empty($result)){
 			$data =['loggedIn'=>false,"message"=>"Invalid cedentials",'token'=>''];
 		}
 		else{
-			$id=$result[0]->id;			
-			$new_token=sha1(md5(time().md5($id)));			
-			
+			$id=$result[0]->id;
+			$new_token=sha1(md5(time().md5($id)));
+
 			//Update new_token and logged in time
 			$lastLoggedin=(date("Y-m-d H:i:s"));
 			$token=$new_token;
-			
+
 			$this->db->where("id",$id);
 			$this->db->update('admin',array("lastLoggedin"=>$lastLoggedin,"token"=>$token));
-			
+
 			$data =['loggedIn'=>true,"message"=>"Success",'token'=>$new_token];
 		}
-		
+
 		$this->set_response($data, REST_Controller::HTTP_OK);
 	}
-	
+
 	public function getchefs_get(){
-		$result=$this->db->get('chefs')->result();		 
+		$result=$this->db->get('chefs')->result();
 		$this->set_response($result, REST_Controller::HTTP_OK);
 	}
-	
+
 	public function addclient_post(){
-		
+
 		$chef_name=$this->post('chef_name');
 		$chef_phone=$this->post('chef_phone');
-		$chef_address=$this->post('chef_address'); 
-		
+		$chef_address=$this->post('chef_address');
+
 		$data = array(
 		   'name' => $chef_name,
 		   'phone' => $chef_phone ,
 		   'address' => $chef_address
 		);
-		
+
 		$id=$this->db->insert('clients',$data);
 		$this->set_response($id, REST_Controller::HTTP_OK);
 	}
-	
+
 	public function addchefs_post(){
-		
+
 		$chef_name=$this->post('chef_name');
 		$chef_phone=$this->post('chef_phone');
 		$chef_address=$this->post('chef_address');
 		$chef_experience=$this->post('chef_experience');
-		
+
 		$data = array(
 		   'name' => $chef_name,
 		   'phone' => $chef_phone ,
-		   'address' => $chef_address, 
+		   'address' => $chef_address,
 		   'experience' => $chef_experience
 		);
-		
+
 		$id=$this->db->insert('chefs',$data);
-		 
-		
+
+
 		$this->set_response($id, REST_Controller::HTTP_OK);
 	}
-	
-	public function addposition_post(){		
+
+	public function addposition_post(){
 		$position_name=$this->post('position_name');
-		$parent_id=$this->post('parent_id'); 
-		
+		$parent_id=$this->post('parent_id');
+
 		$data = array(
 		   'name' => $position_name,
-		   'parent' => $parent_id  
+		   'parent' => $parent_id
 		);
-		
+
 		$id=$this->db->insert('jobpost',$data);
-		 
-		
+
+
 		$this->set_response($id, REST_Controller::HTTP_OK);
 	}
-	
+
 	public function updatePositionDetails_post(){
-		$id=$this->post('id');		
-		$name=$this->post('name');		
-		$description=$this->post('description');	
-		$parent=$this->post('parent');	
-		
-	 
-		
+		$id=$this->post('id');
+		$name=$this->post('name');
+		$description=$this->post('description');
+		$parent=$this->post('parent');
+
+
+
 		if(empty($name)){
 			$name="No name";
 		}
 		$data = array(
 		   'name' => $name,
 		   'description' => $description,
-		   'parent' => $parent  
+		   'parent' => $parent
 		);
-		
+
 		$this->db->where('id',$id);
 		if($this->db->update('jobpost',$data)){
 			$this->set_response('true', REST_Controller::HTTP_OK);
@@ -166,25 +166,25 @@ class RestApi extends REST_Controller {
 		else{
 			$this->set_response('false', REST_Controller::HTTP_OK);
 		}
-		
+
 	}
-	
+
 	public function deletePostWithChild_post(){
 		//Delete a jobpost and its child
-		$id=$this->post('id');		
-		
-		
-		
+		$id=$this->post('id');
+
+
+
 		$this->db->where('id',$id);
 		if($this->db->delete('jobpost')){
-			$this->db->where('parent',$id);	
+			$this->db->where('parent',$id);
 			if($this->db->delete('jobpost')){
 				$this->set_response("true", REST_Controller::HTTP_OK);
 				//Delete the orphans
 				//Need to modify code
 				$sql='select id from jobpost where (id not in(SELECT DISTINCT  `parent` FROM `jobpost`) and parent<>0) and (id not in (select id from jobpost where parent in (select id from jobpost where id in(SELECT DISTINCT  `parent` FROM `jobpost`))))';
 				$result=$this->db->query($sql)->result();
-				
+
 				$str='(';
 				foreach($result as $r){
 					//$str.=$r;
@@ -195,42 +195,42 @@ class RestApi extends REST_Controller {
 				if(strlen($str)>2){
 					$sql_delete="DELETE from jobpost where id in ".$str;
 					$this->set_response("true", REST_Controller::HTTP_OK);
-					$this->db->query($sql);	
+					$this->db->query($sql);
 				}
-				
+
 			}
 			else{
 				$this->set_response("false", REST_Controller::HTTP_OK);
 			}
-				
+
 		}
 		else{
 			$this->set_response("false", REST_Controller::HTTP_OK);
 		}
-		
-		
-		
-		
-		
+
+
+
+
+
 	}
-	
+
 	public function updateChef_post(){
-		$id=$this->post('id');		
+		$id=$this->post('id');
 		$this->db->where('id',$id);
-		
+
 		$name=$this->post('name');
-		$address=$this->post('address');		
-		$phone=$this->post('phone');		
-		$active=$this->post('active');		
-		$position=$this->post('position');		
-		
+		$address=$this->post('address');
+		$phone=$this->post('phone');
+		$active=$this->post('active');
+		$position=$this->post('position');
+
 		$data = array(
                'name' => $name,
                'address' => $address,
                'phone' => $phone,
                'position' => $position,
                'active' => $active
-			   
+
             );
 		if($this->db->update('chefs', $data)){
 			$this->set_response("true", REST_Controller::HTTP_OK);
@@ -239,9 +239,9 @@ class RestApi extends REST_Controller {
 			$this->set_response("false", REST_Controller::HTTP_OK);
 		}
 	}
-	
+
 	public function getAllClients_post(){
-		
+
 		$data=$this->db->get('clients')->result();
 		$this->set_response($data, REST_Controller::HTTP_OK);
 	}
@@ -257,21 +257,21 @@ class RestApi extends REST_Controller {
 			 $this->db->where('position',$filter_value);
 				$data=$this->db->get('chefs')->result();
 				break;
-			 
+
 		}
 		$this->set_response($data, REST_Controller::HTTP_OK);
 	}
-	
+
 	public function addNewDisciplines_post(){
 		$name=$this->post('name');
 		$description=$this->post('description');
-		
+
 		$data=array(
 			'name'=>$name,
 			'description'=>$description
-			
+
 		);
-		
+
 		if($this->db->insert('disciplines',$data)){
 			$this->set_response("true", REST_Controller::HTTP_OK);
 		}
@@ -279,7 +279,7 @@ class RestApi extends REST_Controller {
 			$this->set_response("false", REST_Controller::HTTP_OK);
 		}
 	}
-	
+
 	public function deleteDisciplines_post(){
 		$id=$this->post('id');
 		$this->db->where('id',$id);
@@ -290,7 +290,7 @@ class RestApi extends REST_Controller {
 			$this->set_response("false", REST_Controller::HTTP_OK);
 		}
 	}
-	
+
 	public function getDisciplines_post(){
 		$id=$this->post('id');
 		$this->db->where('id',$id);
@@ -299,30 +299,30 @@ class RestApi extends REST_Controller {
 		$disciplines=$data->disciplines;
 		$this->set_response($disciplines, REST_Controller::HTTP_OK);
 	}
-	
-	
+
+
 	public function addDisciplines_post(){
-		$id=$this->post('id');		
-		$discipline=$this->post('discipline');		
-		
+		$id=$this->post('id');
+		$discipline=$this->post('discipline');
+
 		//Get all the discipline from chef
 		$this->db->where('id',$id);
 		$data=$this->db->get("chefs")->result();
 		$data=$data[0];
-		
+
 		$p_disciplines=$data->disciplines;
 		$p_disciplines=explode("-", $p_disciplines);
 		$p_disciplines[]=$discipline;
-		
+
 		$p_disciplines=(array_unique($p_disciplines));
-		
+
 		$discipline=implode('-',$p_disciplines).'-';
-		
+
 		$this->db->where('id',$id);
 		$data=array(
 		'disciplines'=>$discipline
 		);
-		
+
 		if($this->db->update('chefs', $data)){
 			$this->set_response("true", REST_Controller::HTTP_OK);
 		}
@@ -330,12 +330,12 @@ class RestApi extends REST_Controller {
 			$this->set_response("false", REST_Controller::HTTP_OK);
 		}
 	}
-	
-	
+
+
 	public function editFollowUps_post(){
-		$id=$this->post('id');		
-		$follow_ups=$this->post('followups');		
-		
+		$id=$this->post('id');
+		$follow_ups=$this->post('followups');
+
 		$data=array(
 			'follow_ups'=>$follow_ups
 		);
@@ -348,87 +348,120 @@ class RestApi extends REST_Controller {
 		}
 	}
 	public function getFollo_ups_post(){
-		$id=$this->post('id');		
 		$full_data=array();
-		
+    $id=$this->post('id');
+
 		$this->db->where('id',$id);
-		$data=$this->db->get('clients')->result(); 
+		$data=$this->db->get('clients')->result();
 		$full_data[]=$data;
-		
-		$this->db->where('id',$id);
+
+    $this->db->where('client_id',$id);
+		$this->db->where('datetime >=', date("Y/m/d"));
 		$this->db->limit(1);
 		$this->db->order_by("datetime", "asc");
-		$data=$this->db->get('meetings')->result(); 
+		$data=$this->db->get('meetings')->result();
 		$full_data[]=$data;
-		
-	 
-		
+    //echo $this->db->last_query();
 		$this->set_response($full_data, REST_Controller::HTTP_OK);
 	}
+
+  public function getClientDetails_post(){
+    $client_id=$this->post('client_id');
+    $this->db->where('id',$client_id);
+    $data=$this->db->get('clients')->result();
+    $this->set_response($data, REST_Controller::HTTP_OK);
+
+  }
+
+
+  public function add_new_meeting_post(){
+    $client_id=$this->post('client_id');
+    $datetime=$this->post('datetime');
+    $subject=$this->post('subject');
+    $details=$this->post('details');
+
+    if(empty($client_id) || empty($datetime) || empty($subject) || empty($details)){
+      $this->set_response('false', REST_Controller::HTTP_OK);
+      return;
+    }
+
+    $data=array(
+      'client_id'=>$client_id,
+      'datetime'=>$datetime,
+      'subject'=>$subject,
+      'details'=>$details
+    );
+
+
+    if($this->db->insert('meetings',$data)){
+      $this->set_response('true', REST_Controller::HTTP_OK);
+    }
+
+  }
 	public function getPositionDetails_post(){
-		$id=$this->post('id');		
+		$id=$this->post('id');
 		$this->db->where('id',$id);
-		$data=$this->db->get('jobpost')->result(); 
-		
+		$data=$this->db->get('jobpost')->result();
+
 		$temp=array();
 		$temp[]=$data[0];
-		
+
 		//Also get the number of associates that comes under the node
 		$this->db->where('position',$id);
 		$num_rows = $this->db->count_all_results('chefs');
 		$temp[]=$num_rows;
-		
+
 		$this->set_response($temp, REST_Controller::HTTP_OK);
 	}
-	
+
 	public function deleteclients_post(){
-		$id=$this->post('id');		
+		$id=$this->post('id');
 		$this->db->where('id',$id);
-		$data=$this->db->delete('clients'); 
+		$data=$this->db->delete('clients');
 		$this->set_response($data, REST_Controller::HTTP_OK);
 	}
-	
+
 	public function deletechefs_post(){
 		$id=$this->post('id');
-		
+
 		$this->db->where('id',$id);
-		$data=$this->db->delete('chefs'); 
+		$data=$this->db->delete('chefs');
 		$this->set_response($data, REST_Controller::HTTP_OK);
 	}
-	
+
 	public function toggleChefsActive_post(){
 		$id=$this->post('id');
 		$active=$this->post('active');
-		
+
 		if($active=='true'){
 			$active=1;
 		}
 		else{
 			$active=0;
 		}
-		
+
 		$this->db->where("id",$id);
-		
+
 		$data = array(
                'active' => $active
             );
-			
+
 		if($this->db->update('chefs', $data)){
 			$this->set_response("true", REST_Controller::HTTP_OK);
 		}
 		else{
 			$this->set_response("false", REST_Controller::HTTP_OK);
 		}
-		
-		
+
+
 	}
-	
+
 	public function getPostTree_post(){
 		 $query = $this->db->query("call GenerateTreeView()");
 		 $this->set_response($query->result(), REST_Controller::HTTP_OK);
-         
+
 	}
-	
+
     public function users_get()
     {
         // Users from a data store e.g. database
