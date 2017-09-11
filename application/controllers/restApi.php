@@ -365,11 +365,47 @@ class RestApi extends REST_Controller {
 		$this->set_response($full_data, REST_Controller::HTTP_OK);
 	}
 
+
+  public function editMeetingSummary_post(){
+    $id=$this->post('id');
+    $summary=$this->post('summary');
+
+    $data=array(
+      'summary'=>$summary
+    );
+    $this->db->where('id',$id);
+    if($this->db->update('meetings',$data)){
+      $this->set_response("true", REST_Controller::HTTP_OK);
+    }
+    else{
+      $this->set_response("false", REST_Controller::HTTP_OK);
+    }
+  }
+
+
+  public function getMeetingSummary_post(){
+    $id=$this->post('id');
+    $this->db->where('id',$id);
+
+    $data=$this->db->get('meetings')->result();
+    
+		$this->set_response($data[0], REST_Controller::HTTP_OK);
+  }
+
   public function getClientDetails_post(){
+    $full_data=array();
+
     $client_id=$this->post('client_id');
     $this->db->where('id',$client_id);
     $data=$this->db->get('clients')->result();
-    $this->set_response($data, REST_Controller::HTTP_OK);
+    $full_data[]=$data[0];
+
+
+    $this->db->where('client_id',$client_id);
+    $data=$this->db->get('meetings')->result();
+    $full_data[]=$data;
+
+    $this->set_response($full_data, REST_Controller::HTTP_OK);
 
   }
 
