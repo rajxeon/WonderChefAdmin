@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 05, 2017 at 12:35 PM
+-- Generation Time: Sep 11, 2017 at 03:22 PM
 -- Server version: 5.7.14
 -- PHP Version: 5.6.25
 
@@ -438,7 +438,7 @@ CREATE TABLE `admin` (
 --
 
 INSERT INTO `admin` (`id`, `name`, `username`, `password`, `token`, `lastLoggedin`) VALUES
-(1, 'Raj', 'rajxeon', '61E2484AE1AFA50C36068429D1EB1EEA', '02800b1f09c48103e1152f9bcedfa5f9f1bc7166', '2017-09-05 07:03:09');
+(1, 'Raj', 'rajxeon', '61E2484AE1AFA50C36068429D1EB1EEA', '6033df753f7327b3f5e0b27f068342cc5e761c1c', '2017-09-11 09:40:24');
 
 -- --------------------------------------------------------
 
@@ -1401,8 +1401,9 @@ CREATE TABLE `clients` (
 --
 
 INSERT INTO `clients` (`id`, `name`, `phone`, `address`, `follow_ups`, `last_updated`) VALUES
-(1, 'level_1', '9475956718', 'getAllClients', 'getAllClients\nasddd\nsss', '2017-09-05 09:15:19'),
-(3, 'asd', '32423', 'wedas 43w3', '-1st follow up-----\n=======================================\nNeed to discuss about the finance', '2017-09-05 10:06:20');
+(1, 'level_1', '9475956718', 'getAllClients', '<ol>\n<li>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quae cum essent dicta, discessimus. Duarum enim vitarum nobis erunt instituta capienda. Non quam nostram quidem, inquit Pomponius iocans; Ergo hoc quidem apparet, nos ad agendum esse natos. Memini vero, inquam; Duo Reges: constructio interrete. Gerendus est mos, modo recte sentiat. Idem adhuc; Nihilne est in his rebus, quod dignum libero aut indignum esse ducamus? Si de re disceptari oportet, nulla mihi tecum, Cato, potest esse dissensio.</li>\n<li>Ait enim se, si uratur, Quam hoc suave! dicturum. Expectoque quid ad id, quod quaerebam, respondeas. Quae si potest singula consolando levare, universa quo modo sustinebit? At, si voluptas esset bonum, desideraret.</li>\n</ol>', '2017-09-05 09:15:19'),
+(3, 'asd', '32423', 'wedas 43w3', '<p>sadad asdddddasd asd</p>\n<p>This is another test line</p>', '2017-09-05 10:06:20'),
+(4, 'Test 3', '7864309', 'address', 'No Follow ups', '2017-09-08 12:13:37');
 
 -- --------------------------------------------------------
 
@@ -1468,16 +1469,18 @@ CREATE TABLE `meetings` (
   `subject` varchar(150) NOT NULL,
   `details` varchar(1000) NOT NULL,
   `client_id` int(11) NOT NULL,
-  `datetime` timestamp NOT NULL
+  `datetime` timestamp NOT NULL,
+  `summary` varchar(2000) NOT NULL DEFAULT 'No Summary added'
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `meetings`
 --
 
-INSERT INTO `meetings` (`id`, `subject`, `details`, `client_id`, `datetime`) VALUES
-(1, 'Test', 'Details Body', 1, '2017-09-05 11:59:25'),
-(2, 'Test', 'Details Body', 1, '2017-09-07 11:59:40');
+INSERT INTO `meetings` (`id`, `subject`, `details`, `client_id`, `datetime`, `summary`) VALUES
+(23, 'Test 2nd', 'Test 2nd', 1, '2017-09-13 12:52:00', 'No Summary added'),
+(21, 'Test subject', 'Test', 1, '2017-09-15 11:58:00', 'No Summary add'),
+(24, 'Test subject', 'Test 2nd', 3, '2017-09-13 13:50:00', 'No Summary added');
 
 -- --------------------------------------------------------
 
@@ -2180,7 +2183,7 @@ ALTER TABLE `chefs`
 -- AUTO_INCREMENT for table `clients`
 --
 ALTER TABLE `clients`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `disciplines`
 --
@@ -2195,7 +2198,7 @@ ALTER TABLE `jobpost`
 -- AUTO_INCREMENT for table `meetings`
 --
 ALTER TABLE `meetings`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 --
 -- AUTO_INCREMENT for table `twofa_accounts`
 --
