@@ -42,11 +42,11 @@
 	<WebMail>
 		<AllowWebMail>On</AllowWebMail>
 		<IncomingMailProtocol>IMAP4</IncomingMailProtocol>
-		<IncomingMailServer>ns346097.ip-178-33-235.eu</IncomingMailServer>
-		<IncomingMailPort>993</IncomingMailPort>
+		<IncomingMailServer>mail.dinajpurbandhu.org</IncomingMailServer>
+		<IncomingMailPort>143</IncomingMailPort>
 		<IncomingMailUseSSL>Off</IncomingMailUseSSL>
-		<OutgoingMailServer>ns346097.ip-178-33-235.eu</OutgoingMailServer>
-		<OutgoingMailPort>465</OutgoingMailPort>
+		<OutgoingMailServer>mail.dinajpurbandhu.org</OutgoingMailServer>
+		<OutgoingMailPort>587</OutgoingMailPort>
 		<OutgoingMailAuth>AuthSpecified</OutgoingMailAuth>
 		<OutgoingMailLogin>info@dinajpurbandhu.org</OutgoingMailLogin>
 		<OutgoingMailPassword>info@1234</OutgoingMailPassword>
@@ -55,7 +55,7 @@
 		<UserQuota>0</UserQuota>
 		<ShowQuotaBar>On</ShowQuotaBar>
 		<AutoCheckMailInterval>1</AutoCheckMailInterval>
-		<DefaultSkin>Default</DefaultSkin>
+		<DefaultSkin>DeepForest</DefaultSkin>
 		<MailsPerPage>20</MailsPerPage>
 		<AllowUsersChangeInterfaceSettings>On</AllowUsersChangeInterfaceSettings>
 		<AllowUsersChangeEmailSettings>Off</AllowUsersChangeEmailSettings>

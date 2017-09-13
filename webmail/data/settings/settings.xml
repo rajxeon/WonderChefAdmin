@@ -19,7 +19,7 @@
 		<DBSlaveLogin>root</DBSlaveLogin>
 		<DBSlavePassword />
 		<DefaultLanguage>Autodetect</DefaultLanguage>
-		<DefaultTimeZone>0</DefaultTimeZone>
+		<DefaultTimeZone>47</DefaultTimeZone>
 		<DefaultTimeFormat>F12</DefaultTimeFormat>
 		<DefaultDateFormat>MM/DD/YYYY</DefaultDateFormat>
 		<AllowRegistration>Off</AllowRegistration>
@@ -55,7 +55,7 @@
 		<UserQuota>0</UserQuota>
 		<ShowQuotaBar>On</ShowQuotaBar>
 		<AutoCheckMailInterval>1</AutoCheckMailInterval>
-		<DefaultSkin>Default</DefaultSkin>
+		<DefaultSkin>OpenWater</DefaultSkin>
 		<MailsPerPage>20</MailsPerPage>
 		<AllowUsersChangeInterfaceSettings>On</AllowUsersChangeInterfaceSettings>
 		<AllowUsersChangeEmailSettings>Off</AllowUsersChangeEmailSettings>
